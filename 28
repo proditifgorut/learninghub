@@ -1,6 +1,15 @@
 {
-  "buildCommand": "yarn build",
-  "outputDirectory": "dist",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "installCommand": "yarn install",
+        "buildCommand": "yarn build",
+        "outputDirectory": "dist"
+      }
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!api/|.*\\..*).*)",
