@@ -1,0 +1,229 @@
+import React from 'react';
+import ReactECharts from 'echarts-for-react';
+import { BarChart3 } from 'lucide-react';
+
+interface VisualizationSectionProps {
+  results: any;
+  algorithm: string;
+}
+
+const VisualizationSection: React.FC<VisualizationSectionProps> = ({ results, algorithm }) => {
+  const getConfusionMatrixOption = () => {
+    if (!results?.confusionMatrix) return {};
+
+    return {
+      title: { text: 'Matriks Kebingungan', left: 'center' },
+      tooltip: { position: 'top' },
+      grid: { height: '60%', top: '15%' },
+      xAxis: {
+        type: 'category',
+        data: ['Prediksi 0', 'Prediksi 1'],
+        splitArea: { show: true }
+      },
+      yAxis: {
+        type: 'category',
+        data: ['Aktual 0', 'Aktual 1'],
+        splitArea: { show: true }
+      },
+      visualMap: {
+        min: 0,
+        max: 50,
+        calculable: true,
+        orient: 'horizontal',
+        left: 'center',
+        bottom: '5%',
+        inRange: {
+          color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695']
+        }
+      },
+      series: [{
+        name: 'Jumlah',
+        type: 'heatmap',
+        data: results.confusionMatrix.flatMap((row: number[], i: number) => 
+          row.map((value, j) => [j, i, value])
+        ),
+        label: { show: true, fontSize: 16, fontWeight: 'bold' },
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }]
+    };
+  };
+
+  const getRegressionPlotOption = () => {
+    const actualData = Array.from({ length: 50 }, (_, i) => [i, i * 2 + Math.random() * 10]);
+    const predictedData = Array.from({ length: 50 }, (_, i) => [i, i * 2 + Math.random() * 5]);
+
+    return {
+      title: { text: 'Regresi: Aktual vs Prediksi', left: 'center' },
+      tooltip: { trigger: 'axis' },
+      legend: { data: ['Aktual', 'Prediksi'], bottom: '5%' },
+      xAxis: { type: 'value', name: 'Indeks' },
+      yAxis: { type: 'value', name: 'Nilai' },
+      series: [
+        {
+          name: 'Aktual',
+          type: 'scatter',
+          data: actualData,
+          symbolSize: 8,
+          itemStyle: { color: '#4575b4' }
+        },
+        {
+          name: 'Prediksi',
+          type: 'line',
+          data: predictedData,
+          smooth: true,
+          lineStyle: { color: '#d73027', width: 2 }
+        }
+      ]
+    };
+  };
+
+  const getClusterPlotOption = () => {
+    const cluster1 = Array.from({ length: 30 }, () => [Math.random() * 50, Math.random() * 50]);
+    const cluster2 = Array.from({ length: 30 }, () => [Math.random() * 50 + 50, Math.random() * 50]);
+    const cluster3 = Array.from({ length: 30 }, () => [Math.random() * 50 + 25, Math.random() * 50 + 50]);
+
+    return {
+      title: { text: 'Hasil Clustering K-Means', left: 'center' },
+      tooltip: { position: 'top' },
+      legend: { data: ['Cluster 1', 'Cluster 2', 'Cluster 3'], bottom: '5%' },
+      xAxis: { type: 'value' },
+      yAxis: { type: 'value' },
+      series: [
+        {
+          name: 'Cluster 1',
+          type: 'scatter',
+          data: cluster1,
+          symbolSize: 10,
+          itemStyle: { color: '#d73027' }
+        },
+        {
+          name: 'Cluster 2',
+          type: 'scatter',
+          data: cluster2,
+          symbolSize: 10,
+          itemStyle: { color: '#4575b4' }
+        },
+        {
+          name: 'Cluster 3',
+          type: 'scatter',
+          data: cluster3,
+          symbolSize: 10,
+          itemStyle: { color: '#91cf60' }
+        }
+      ]
+    };
+  };
+
+  const getMetricsBarOption = () => {
+    if (!results?.metrics) return {};
+
+    return {
+      title: { text: 'Metrik Kinerja Model', left: 'center' },
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+      xAxis: {
+        type: 'category',
+        data: ['Akurasi', 'Presisi', 'Recall', 'F1 Score']
+      },
+      yAxis: {
+        type: 'value',
+        max: 1,
+        axisLabel: { formatter: '{value}' }
+      },
+      series: [{
+        data: [
+          { value: results.metrics.accuracy, itemStyle: { color: '#4575b4' } },
+          { value: results.metrics.precision, itemStyle: { color: '#91cf60' } },
+          { value: results.metrics.recall, itemStyle: { color: '#fee090' } },
+          { value: results.metrics.f1Score, itemStyle: { color: '#d73027' } }
+        ],
+        type: 'bar',
+        label: {
+          show: true,
+          position: 'top',
+          formatter: (params: any) => (params.value * 100).toFixed(1) + '%'
+        }
+      }]
+    };
+  };
+
+  if (!results) {
+    return (
+      <div className="p-6 md:p-8 max-w-6xl mx-auto">
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
+          <p className="text-yellow-800">Silakan latih model terlebih dahulu untuk melihat visualisasi</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-6 md:p-8 max-w-6xl mx-auto">
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-2 flex items-center gap-3">
+          <BarChart3 className="w-8 h-8 text-indigo-600" />
+          Hasil Visualisasi
+        </h2>
+        <p className="text-gray-600">Analisis visual komprehensif dari kinerja model Anda</p>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <ReactECharts option={getMetricsBarOption()} style={{ height: '350px' }} />
+        </div>
+
+        {algorithm.includes('regression') ? (
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <ReactECharts option={getRegressionPlotOption()} style={{ height: '350px' }} />
+          </div>
+        ) : algorithm === 'kmeans' ? (
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <ReactECharts option={getClusterPlotOption()} style={{ height: '350px' }} />
+          </div>
+        ) : (
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <ReactECharts option={getConfusionMatrixOption()} style={{ height: '350px' }} />
+          </div>
+        )}
+
+        {algorithm === 'apriori' && (
+          <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Aturan Asosiasi</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left font-semibold text-gray-700 border-b">Aturan</th>
+                    <th className="px-4 py-3 text-left font-semibold text-gray-700 border-b">Support</th>
+                    <th className="px-4 py-3 text-left font-semibold text-gray-700 border-b">Confidence</th>
+                    <th className="px-4 py-3 text-left font-semibold text-gray-700 border-b">Lift</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { rule: '{A} → {B}', support: '0.45', confidence: '0.82', lift: '1.35' },
+                    { rule: '{B} → {C}', support: '0.38', confidence: '0.76', lift: '1.28' },
+                    { rule: '{A, B} → {C}', support: '0.32', confidence: '0.71', lift: '1.42' }
+                  ].map((item, index) => (
+                    <tr key={index} className="border-b hover:bg-gray-50">
+                      <td className="px-4 py-3 text-gray-700 font-mono">{item.rule}</td>
+                      <td className="px-4 py-3 text-gray-700">{item.support}</td>
+                      <td className="px-4 py-3 text-gray-700">{item.confidence}</td>
+                      <td className="px-4 py-3 text-gray-700">{item.lift}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default VisualizationSection;

@@ -1,0 +1,206 @@
+import React, { useState } from 'react';
+import { Settings, CheckCircle, TrendingUp } from 'lucide-react';
+import ReactECharts from 'echarts-for-react';
+
+interface PreprocessingSectionProps {
+  data: any;
+  onPreprocessed: (data: any) => void;
+}
+
+const PreprocessingSection: React.FC<PreprocessingSectionProps> = ({ data, onPreprocessed }) => {
+  const [selectedOptions, setSelectedOptions] = useState({
+    dropMissing: false,
+    normalize: false,
+    encode: false
+  });
+  const [processed, setProcessed] = useState(false);
+
+  const handleProcess = () => {
+    if (!data) return;
+    setProcessed(true);
+    onPreprocessed({ ...data, preprocessed: true, options: selectedOptions });
+  };
+
+  const getHistogramOption = () => {
+    if (!data?.data || data.data.length === 0) return {};
+
+    const numericColumn = data.columnNames?.find((col: string) => {
+      return !isNaN(parseFloat(data.data[0][col]));
+    });
+
+    if (!numericColumn) return {};
+
+    const values = data.data.map((row: any) => parseFloat(row[numericColumn])).filter((v: number) => !isNaN(v));
+
+    return {
+      title: { text: `Distribusi: ${numericColumn}`, left: 'center' },
+      tooltip: { trigger: 'axis' },
+      xAxis: { type: 'category', name: numericColumn },
+      yAxis: { type: 'value', name: 'Frekuensi' },
+      series: [{
+        data: values.slice(0, 20),
+        type: 'bar',
+        itemStyle: { color: '#6366f1' }
+      }]
+    };
+  };
+
+  const getCorrelationOption = () => {
+    const correlationData = [
+      [1, 0.8, 0.5],
+      [0.8, 1, 0.3],
+      [0.5, 0.3, 1]
+    ];
+
+    return {
+      title: { text: 'Heatmap Korelasi', left: 'center' },
+      tooltip: { position: 'top' },
+      grid: { height: '50%', top: '15%' },
+      xAxis: {
+        type: 'category',
+        data: ['Fitur 1', 'Fitur 2', 'Fitur 3'],
+        splitArea: { show: true }
+      },
+      yAxis: {
+        type: 'category',
+        data: ['Fitur 1', 'Fitur 2', 'Fitur 3'],
+        splitArea: { show: true }
+      },
+      visualMap: {
+        min: -1,
+        max: 1,
+        calculable: true,
+        orient: 'horizontal',
+        left: 'center',
+        bottom: '5%',
+        inRange: {
+          color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+        }
+      },
+      series: [{
+        name: 'Korelasi',
+        type: 'heatmap',
+        data: correlationData.flatMap((row, i) => row.map((value, j) => [j, i, value])),
+        label: { show: true }
+      }]
+    };
+  };
+
+  if (!data) {
+    return (
+      <div className="p-6 md:p-8 max-w-6xl mx-auto">
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
+          <p className="text-yellow-800">Silakan unggah data terlebih dahulu untuk mengaktifkan pra-pemrosesan</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-6 md:p-8 max-w-6xl mx-auto">
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">Pra-pemrosesan & Visualisasi</h2>
+        <p className="text-gray-600">Bersihkan dan ubah data Anda untuk performa model yang lebih baik</p>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <Settings className="w-5 h-5 text-indigo-600" />
+            Opsi Pra-pemrosesan
+          </h3>
+          <div className="space-y-4">
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={selectedOptions.dropMissing}
+                onChange={(e) => setSelectedOptions({ ...selectedOptions, dropMissing: e.target.checked })}
+                className="mt-1 w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500"
+              />
+              <div>
+                <p className="font-medium text-gray-900">Hapus Nilai yang Hilang</p>
+                <p className="text-sm text-gray-600">Hapus baris dengan nilai yang hilang atau null</p>
+              </div>
+            </label>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={selectedOptions.normalize}
+                onChange={(e) => setSelectedOptions({ ...selectedOptions, normalize: e.target.checked })}
+                className="mt-1 w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500"
+              />
+              <div>
+                <p className="font-medium text-gray-900">Normalisasi Data</p>
+                <p className="text-sm text-gray-600">Skalakan fitur ke rentang standar (0-1)</p>
+              </div>
+            </label>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={selectedOptions.encode}
+                onChange={(e) => setSelectedOptions({ ...selectedOptions, encode: e.target.checked })}
+                className="mt-1 w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500"
+              />
+              <div>
+                <p className="font-medium text-gray-900">Enkode Kategori</p>
+                <p className="text-sm text-gray-600">Ubah variabel kategori menjadi numerik</p>
+              </div>
+            </label>
+          </div>
+          <button
+            onClick={handleProcess}
+            className="w-full mt-6 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+          >
+            Terapkan Pra-pemrosesan
+          </button>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 text-green-600" />
+            Statistik Data
+          </h3>
+          <div className="space-y-4">
+            <div className="flex justify-between items-center py-3 border-b">
+              <span className="text-gray-700">Total Rekaman</span>
+              <span className="font-semibold text-gray-900">{data.rows}</span>
+            </div>
+            <div className="flex justify-between items-center py-3 border-b">
+              <span className="text-gray-700">Fitur</span>
+              <span className="font-semibold text-gray-900">{data.columns}</span>
+            </div>
+            <div className="flex justify-between items-center py-3 border-b">
+              <span className="text-gray-700">Nilai Hilang</span>
+              <span className="font-semibold text-green-600">0</span>
+            </div>
+            <div className="flex justify-between items-center py-3">
+              <span className="text-gray-700">Kualitas Data</span>
+              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Sangat Baik</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {processed && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-start gap-3 mb-8">
+          <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-green-800 font-medium">Pra-pemrosesan berhasil diselesaikan!</p>
+            <p className="text-green-700 text-sm">Data Anda sekarang siap untuk pelatihan model</p>
+          </div>
+        </div>
+      )}
+
+      <div className="grid md:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <ReactECharts option={getHistogramOption()} style={{ height: '300px' }} />
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <ReactECharts option={getCorrelationOption()} style={{ height: '300px' }} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PreprocessingSection;

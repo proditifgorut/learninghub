@@ -1,0 +1,213 @@
+import React, { useState } from 'react';
+import { Cpu, ChevronRight } from 'lucide-react';
+
+interface AlgorithmSelectionProps {
+  onAlgorithmSelected: (algorithm: string) => void;
+}
+
+const AlgorithmSelection: React.FC<AlgorithmSelectionProps> = ({ onAlgorithmSelected }) => {
+  const [selectedCategory, setSelectedCategory] = useState<'supervised' | 'unsupervised'>('supervised');
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>('');
+
+  const algorithms = {
+    supervised: {
+      regression: [
+        { id: 'linear-regression', name: 'Regresi Linier', description: 'Memprediksi nilai kontinu menggunakan hubungan linier' },
+        { id: 'polynomial-regression', name: 'Regresi Polinomial', description: 'Menyesuaikan kurva polinomial untuk pola non-linier' }
+      ],
+      classification: [
+        { id: 'logistic-regression', name: 'Regresi Logistik', description: 'Klasifikasi biner menggunakan fungsi logistik' },
+        { id: 'knn', name: 'K-Nearest Neighbors', description: 'Mengklasifikasikan berdasarkan k contoh terdekat' },
+        { id: 'decision-tree', name: 'Decision Tree', description: 'Model seperti pohon untuk keputusan klasifikasi' },
+        { id: 'random-forest', name: 'Random Forest', description: 'Ensemble pohon keputusan untuk prediksi yang kuat' }
+      ]
+    },
+    unsupervised: {
+      clustering: [
+        { id: 'kmeans', name: 'K-Means', description: 'Membagi data menjadi k cluster' },
+        { id: 'hierarchical', name: 'Hierarchical Clustering', description: 'Membuat pohon cluster' }
+      ],
+      association: [
+        { id: 'apriori', name: 'Apriori', description: 'Menemukan itemset yang sering dan aturan asosiasi' }
+      ]
+    }
+  };
+
+  const handleSelectAlgorithm = (id: string) => {
+    setSelectedAlgorithm(id);
+    onAlgorithmSelected(id);
+  };
+
+  return (
+    <div className="p-6 md:p-8 max-w-6xl mx-auto">
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">Pilih Algoritma</h2>
+        <p className="text-gray-600">Pilih algoritma machine learning untuk analisis Anda</p>
+      </div>
+
+      <div className="flex gap-4 mb-8">
+        <button
+          onClick={() => setSelectedCategory('supervised')}
+          className={`flex-1 px-6 py-4 rounded-xl font-medium transition-all ${
+            selectedCategory === 'supervised'
+              ? 'bg-indigo-600 text-white shadow-lg'
+              : 'bg-white text-gray-700 border border-gray-200 hover:border-indigo-300'
+          }`}
+        >
+          Pembelajaran Terarah
+        </button>
+        <button
+          onClick={() => setSelectedCategory('unsupervised')}
+          className={`flex-1 px-6 py-4 rounded-xl font-medium transition-all ${
+            selectedCategory === 'unsupervised'
+              ? 'bg-indigo-600 text-white shadow-lg'
+              : 'bg-white text-gray-700 border border-gray-200 hover:border-indigo-300'
+          }`}
+        >
+          Pembelajaran Tak Terarah
+        </button>
+      </div>
+
+      {selectedCategory === 'supervised' && (
+        <div className="space-y-8">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Algoritma Regresi</h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              {algorithms.supervised.regression.map((algo) => (
+                <button
+                  key={algo.id}
+                  onClick={() => handleSelectAlgorithm(algo.id)}
+                  className={`text-left p-6 rounded-xl transition-all ${
+                    selectedAlgorithm === algo.id
+                      ? 'bg-indigo-50 border-2 border-indigo-500 shadow-md'
+                      : 'bg-white border border-gray-200 hover:border-indigo-300 hover:shadow-sm'
+                  }`}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                        selectedAlgorithm === algo.id ? 'bg-indigo-600' : 'bg-indigo-100'
+                      }`}>
+                        <Cpu className={`w-5 h-5 ${selectedAlgorithm === algo.id ? 'text-white' : 'text-indigo-600'}`} />
+                      </div>
+                      <h4 className="font-semibold text-gray-900">{algo.name}</h4>
+                    </div>
+                    <ChevronRight className={`w-5 h-5 ${selectedAlgorithm === algo.id ? 'text-indigo-600' : 'text-gray-400'}`} />
+                  </div>
+                  <p className="text-sm text-gray-600">{algo.description}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Algoritma Klasifikasi</h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              {algorithms.supervised.classification.map((algo) => (
+                <button
+                  key={algo.id}
+                  onClick={() => handleSelectAlgorithm(algo.id)}
+                  className={`text-left p-6 rounded-xl transition-all ${
+                    selectedAlgorithm === algo.id
+                      ? 'bg-indigo-50 border-2 border-indigo-500 shadow-md'
+                      : 'bg-white border border-gray-200 hover:border-indigo-300 hover:shadow-sm'
+                  }`}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                        selectedAlgorithm === algo.id ? 'bg-indigo-600' : 'bg-indigo-100'
+                      }`}>
+                        <Cpu className={`w-5 h-5 ${selectedAlgorithm === algo.id ? 'text-white' : 'text-indigo-600'}`} />
+                      </div>
+                      <h4 className="font-semibold text-gray-900">{algo.name}</h4>
+                    </div>
+                    <ChevronRight className={`w-5 h-5 ${selectedAlgorithm === algo.id ? 'text-indigo-600' : 'text-gray-400'}`} />
+                  </div>
+                  <p className="text-sm text-gray-600">{algo.description}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedCategory === 'unsupervised' && (
+        <div className="space-y-8">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Algoritma Clustering</h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              {algorithms.unsupervised.clustering.map((algo) => (
+                <button
+                  key={algo.id}
+                  onClick={() => handleSelectAlgorithm(algo.id)}
+                  className={`text-left p-6 rounded-xl transition-all ${
+                    selectedAlgorithm === algo.id
+                      ? 'bg-purple-50 border-2 border-purple-500 shadow-md'
+                      : 'bg-white border border-gray-200 hover:border-purple-300 hover:shadow-sm'
+                  }`}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                        selectedAlgorithm === algo.id ? 'bg-purple-600' : 'bg-purple-100'
+                      }`}>
+                        <Cpu className={`w-5 h-5 ${selectedAlgorithm === algo.id ? 'text-white' : 'text-purple-600'}`} />
+                      </div>
+                      <h4 className="font-semibold text-gray-900">{algo.name}</h4>
+                    </div>
+                    <ChevronRight className={`w-5 h-5 ${selectedAlgorithm === algo.id ? 'text-purple-600' : 'text-gray-400'}`} />
+                  </div>
+                  <p className="text-sm text-gray-600">{algo.description}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Association Rule Mining</h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              {algorithms.unsupervised.association.map((algo) => (
+                <button
+                  key={algo.id}
+                  onClick={() => handleSelectAlgorithm(algo.id)}
+                  className={`text-left p-6 rounded-xl transition-all ${
+                    selectedAlgorithm === algo.id
+                      ? 'bg-purple-50 border-2 border-purple-500 shadow-md'
+                      : 'bg-white border border-gray-200 hover:border-purple-300 hover:shadow-sm'
+                  }`}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                        selectedAlgorithm === algo.id ? 'bg-purple-600' : 'bg-purple-100'
+                      }`}>
+                        <Cpu className={`w-5 h-5 ${selectedAlgorithm === algo.id ? 'text-white' : 'text-purple-600'}`} />
+                      </div>
+                      <h4 className="font-semibold text-gray-900">{algo.name}</h4>
+                    </div>
+                    <ChevronRight className={`w-5 h-5 ${selectedAlgorithm === algo.id ? 'text-purple-600' : 'text-gray-400'}`} />
+                  </div>
+                  <p className="text-sm text-gray-600">{algo.description}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedAlgorithm && (
+        <div className="mt-8 bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
+          <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+            <Cpu className="w-5 h-5 text-white" />
+          </div>
+          <p className="text-green-800 font-medium">
+            Algoritma dipilih! Lanjutkan ke pelatihan dan evaluasi.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AlgorithmSelection;

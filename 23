@@ -1,0 +1,156 @@
+import React from 'react';
+import { Database, Download } from 'lucide-react';
+
+interface CaseStudySectionProps {
+  onDatasetSelected: (data: any) => void;
+}
+
+const CaseStudySection: React.FC<CaseStudySectionProps> = ({ onDatasetSelected }) => {
+  const datasets = [
+    {
+      id: 'iris',
+      name: 'Dataset Iris',
+      description: 'Dataset klasik untuk klasifikasi dengan 150 sampel bunga iris',
+      rows: 150,
+      columns: 5,
+      use: 'Klasifikasi',
+      color: 'from-blue-500 to-blue-600'
+    },
+    {
+      id: 'titanic',
+      name: 'Dataset Titanic',
+      description: 'Data penumpang Titanic untuk prediksi kelangsungan hidup',
+      rows: 891,
+      columns: 12,
+      use: 'Klasifikasi',
+      color: 'from-purple-500 to-purple-600'
+    },
+    {
+      id: 'housing',
+      name: 'Dataset Harga Rumah',
+      description: 'Data real estat untuk analisis prediksi harga',
+      rows: 506,
+      columns: 14,
+      use: 'Regresi',
+      color: 'from-green-500 to-green-600'
+    }
+  ];
+
+  const handleSelectDataset = (datasetId: string) => {
+    const mockData = {
+      fileName: `${datasetId}.csv`,
+      rows: datasets.find(d => d.id === datasetId)?.rows || 0,
+      columns: datasets.find(d => d.id === datasetId)?.columns || 0,
+      columnNames: ['Fitur1', 'Fitur2', 'Fitur3', 'Fitur4', 'Target'],
+      data: Array.from({ length: 10 }, (_, i) => ({
+        Fitur1: (Math.random() * 10).toFixed(2),
+        Fitur2: (Math.random() * 10).toFixed(2),
+        Fitur3: (Math.random() * 10).toFixed(2),
+        Fitur4: (Math.random() * 10).toFixed(2),
+        Target: Math.round(Math.random())
+      })),
+      preview: Array.from({ length: 10 }, (_, i) => ({
+        Fitur1: (Math.random() * 10).toFixed(2),
+        Fitur2: (Math.random() * 10).toFixed(2),
+        Fitur3: (Math.random() * 10).toFixed(2),
+        Fitur4: (Math.random() * 10).toFixed(2),
+        Target: Math.round(Math.random())
+      }))
+    };
+
+    onDatasetSelected(mockData);
+  };
+
+  return (
+    <div className="p-6 md:p-8 max-w-6xl mx-auto">
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">Dataset Studi Kasus</h2>
+        <p className="text-gray-600">Coba dataset bawaan kami untuk menjelajahi algoritma machine learning</p>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-6">
+        {datasets.map((dataset) => (
+          <div
+            key={dataset.id}
+            className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow"
+          >
+            <div className={`bg-gradient-to-r ${dataset.color} p-6 text-white`}>
+              <Database className="w-12 h-12 mb-3 opacity-90" />
+              <h3 className="text-xl font-bold mb-2">{dataset.name}</h3>
+              <p className="text-sm opacity-90">{dataset.description}</p>
+            </div>
+            <div className="p-6">
+              <div className="space-y-3 mb-6">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Baris</span>
+                  <span className="font-semibold text-gray-900">{dataset.rows}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Kolom</span>
+                  <span className="font-semibold text-gray-900">{dataset.columns}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Kasus Penggunaan</span>
+                  <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-medium">
+                    {dataset.use}
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => handleSelectDataset(dataset.id)}
+                className="w-full px-4 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors font-medium flex items-center justify-center gap-2"
+              >
+                <Download className="w-4 h-4" />
+                Muat Dataset
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-12 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-8 border border-indigo-100">
+        <h3 className="text-2xl font-bold text-gray-900 mb-4">Cara Menggunakan Dataset Studi Kasus</h3>
+        <div className="space-y-4">
+          <div className="flex gap-4">
+            <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
+              1
+            </div>
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-1">Muat Dataset</h4>
+              <p className="text-gray-600 text-sm">Klik "Muat Dataset" pada salah satu dataset sampel di atas</p>
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
+              2
+            </div>
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-1">Pra-pemrosesan Data</h4>
+              <p className="text-gray-600 text-sm">Navigasi ke bagian pra-pemrosesan untuk membersihkan dan mengubah data</p>
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
+              3
+            </div>
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-1">Pilih Algoritma</h4>
+              <p className="text-gray-600 text-sm">Pilih algoritma machine learning yang sesuai berdasarkan kasus penggunaan</p>
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
+              4
+            </div>
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-1">Latih & Visualisasikan</h4>
+              <p className="text-gray-600 text-sm">Latih model Anda dan jelajahi hasilnya dengan visualisasi interaktif</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CaseStudySection;

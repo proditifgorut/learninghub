@@ -1,0 +1,254 @@
+export interface BlogPost {
+  slug: string;
+  title: string;
+  description: string;
+  category: string;
+  content: {
+    penjelasan: string[];
+    rumus?: string[];
+    prosesHitung?: string[];
+    studiKasus: string[];
+    hasilAkhir: string[];
+  };
+}
+
+export const blogPosts: BlogPost[] = [
+  {
+    slug: 'pengenalan-data-science',
+    title: 'Pengenalan Dunia Data Science',
+    description: 'Memahami apa itu Data Science, peran, dan dampaknya dalam industri modern.',
+    category: 'Data Science',
+    content: {
+      penjelasan: [
+        'Data Science adalah bidang interdisipliner yang menggunakan metode, proses, algoritma, dan sistem ilmiah untuk mengekstrak pengetahuan dan wawasan dari data dalam berbagai bentuk, baik terstruktur maupun tidak terstruktur.',
+        'Seorang Data Scientist menggabungkan keahlian dari berbagai bidang, termasuk statistik, ilmu komputer, dan pengetahuan domain bisnis, untuk menganalisis data dan menghasilkan wawasan yang dapat ditindaklanjuti.'
+      ],
+      prosesHitung: [
+        'Proses kerja dalam Data Science umumnya mengikuti siklus hidup, dimulai dari pemahaman bisnis, pengumpulan data, pembersihan data (data cleaning), eksplorasi data (EDA), pemodelan (modeling), evaluasi, hingga deployment.',
+        'Setiap tahap memerlukan alat dan teknik yang berbeda, seperti SQL untuk pengambilan data, Python/R dengan library seperti Pandas dan NumPy untuk pemrosesan, serta Scikit-learn atau TensorFlow untuk pemodelan.'
+      ],
+      studiKasus: [
+        'Sebuah perusahaan e-commerce ingin meningkatkan penjualan dengan memberikan rekomendasi produk yang dipersonalisasi kepada setiap pengguna. Seorang data scientist akan menganalisis riwayat pembelian, data penelusuran, dan demografi pengguna.',
+        'Dengan menggunakan teknik seperti collaborative filtering atau content-based filtering, model rekomendasi dibangun untuk menyarankan produk yang kemungkinan besar akan dibeli oleh pengguna, sehingga meningkatkan engagement dan pendapatan.'
+      ],
+      hasilAkhir: [
+        'Hasil akhirnya adalah sistem rekomendasi yang terintegrasi di platform e-commerce, yang secara dinamis menampilkan produk yang relevan bagi setiap pengguna. Keberhasilan diukur dengan metrik seperti Click-Through Rate (CTR) pada item yang direkomendasikan dan peningkatan nilai transaksi rata-rata per pengguna.'
+      ]
+    }
+  },
+  {
+    slug: 'apa-itu-data-analyst',
+    title: 'Peran dan Tanggung Jawab Seorang Data Analyst',
+    description: 'Mengenal lebih dekat profesi Data Analyst dan bagaimana mereka mengubah data menjadi keputusan bisnis.',
+    category: 'Data Analyst',
+    content: {
+      penjelasan: [
+        'Seorang Data Analyst bertanggung jawab untuk mengumpulkan, membersihkan, dan menganalisis data untuk membantu organisasi membuat keputusan yang lebih baik. Mereka fokus pada pemahaman tren masa lalu dan menyajikannya dalam format yang mudah dimengerti, seperti laporan dan dasbor.',
+        'Berbeda dengan Data Scientist yang sering membangun model prediktif, Data Analyst lebih fokus pada analisis deskriptif dan diagnostik untuk menjawab pertanyaan bisnis yang spesifik.'
+      ],
+      prosesHitung: [
+        'Proses kerja seorang Data Analyst meliputi: 1. Mendefinisikan Pertanyaan: Memahami masalah bisnis yang perlu dipecahkan. 2. Pengumpulan Data: Mengambil data dari berbagai sumber seperti database atau file CSV. 3. Pembersihan Data: Menangani nilai yang hilang, duplikat, atau tidak konsisten. 4. Analisis Data: Menggunakan statistik dan alat visualisasi untuk menemukan pola. 5. Interpretasi dan Pelaporan: Menyajikan temuan dalam bentuk dasbor (misalnya menggunakan Tableau atau Power BI) atau laporan.'
+      ],
+      studiKasus: [
+        'Tim pemasaran ingin mengetahui kampanye iklan mana yang paling efektif bulan lalu. Seorang Data Analyst akan mengumpulkan data dari berbagai platform iklan (Google Ads, Facebook Ads), data penjualan dari CRM, dan data traffic dari Google Analytics.',
+        'Analis akan menggabungkan data ini, menghitung metrik kunci seperti Return on Ad Spend (ROAS) dan Cost Per Acquisition (CPA) untuk setiap kampanye, lalu membuat dasbor interaktif untuk membandingkan kinerja.'
+      ],
+      hasilAkhir: [
+        'Hasilnya adalah laporan atau dasbor yang jelas menunjukkan bahwa "Kampanye Diskon Musim Panas" di Facebook memiliki ROAS tertinggi. Berdasarkan temuan ini, tim pemasaran memutuskan untuk mengalokasikan lebih banyak anggaran ke kampanye serupa di masa depan.'
+      ]
+    }
+  },
+  {
+    slug: 'regresi-linier-sederhana',
+    title: 'Memahami Regresi Linier Sederhana',
+    description: 'Konsep dasar, rumus, dan implementasi dari salah satu algoritma machine learning paling fundamental.',
+    category: 'Machine Learning',
+    content: {
+      penjelasan: [
+        'Regresi Linier Sederhana adalah algoritma supervised learning yang digunakan untuk memprediksi nilai kontinu (numerik) berdasarkan satu variabel independen. Tujuannya adalah untuk menemukan hubungan linier terbaik antara variabel independen (X) dan variabel dependen (Y).',
+        'Model ini mencoba menemukan garis lurus (garis regresi) yang paling "pas" atau paling dekat dengan semua titik data.'
+      ],
+      rumus: [
+        'Rumus untuk garis regresi linier sederhana adalah:',
+        'Y = β₀ + β₁X + ε',
+        'Di mana:',
+        '  • Y adalah variabel dependen (yang ingin diprediksi).',
+        '  • X adalah variabel independen (fitur).',
+        '  • β₀ adalah intercept (nilai Y ketika X = 0).',
+        '  • β₁ adalah koefisien/slope (perubahan Y untuk setiap satu unit perubahan X).',
+        '  • ε adalah error term (kesalahan acak).'
+      ],
+      prosesHitung: [
+        'Tujuan utama adalah menemukan nilai β₀ dan β₁ yang meminimalkan jumlah kuadrat dari selisih antara nilai Y aktual dan nilai Y yang diprediksi (disebut juga Residual Sum of Squares - RSS).',
+        'Ini biasanya dilakukan dengan metode "Ordinary Least Squares" (OLS), yang secara matematis menemukan nilai koefisien yang menghasilkan RSS terkecil.'
+      ],
+      studiKasus: [
+        'Seorang agen real estat ingin memprediksi harga rumah (Y) berdasarkan luasnya (X, dalam meter persegi). Data dari 50 rumah dikumpulkan.',
+        'Model Regresi Linier Sederhana diterapkan pada data ini. Model akan menghitung nilai β₀ (harga dasar rumah) dan β₁ (tambahan harga untuk setiap meter persegi luas).'
+      ],
+      hasilAkhir: [
+        'Model menghasilkan rumus: Harga = $50,000 + $1,500 * Luas. Ini berarti harga dasar rumah adalah $50,000, dan setiap tambahan satu meter persegi luas akan meningkatkan harga prediksi sebesar $1,500.',
+        'Agen sekarang dapat menggunakan model ini untuk memberikan perkiraan harga awal untuk rumah baru berdasarkan luasnya.'
+      ]
+    }
+  },
+  {
+    slug: 'regresi-logistik',
+    title: 'Regresi Logistik untuk Klasifikasi',
+    description: 'Mempelajari cara kerja Regresi Logistik untuk memprediksi probabilitas hasil biner.',
+    category: 'Machine Learning',
+    content: {
+      penjelasan: [
+        'Regresi Logistik adalah algoritma supervised learning yang digunakan untuk masalah klasifikasi, terutama klasifikasi biner (dua kelas, misal Ya/Tidak, Benar/Salah).',
+        'Meskipun namanya "regresi", outputnya adalah probabilitas antara 0 dan 1, yang kemudian dapat dipetakan ke kelas diskrit.'
+      ],
+      rumus: [
+        'Inti dari Regresi Logistik adalah Fungsi Sigmoid (atau Fungsi Logistik):',
+        'σ(z) = 1 / (1 + e⁻ᶻ)',
+        'Di mana `z` adalah input linier (mirip dengan regresi linier):',
+        'z = β₀ + β₁X₁ + β₂X₂ + ... + βₙXₙ',
+        'Fungsi sigmoid mengubah nilai `z` (yang bisa berkisar dari -∞ hingga +∞) menjadi probabilitas antara 0 dan 1.'
+      ],
+      prosesHitung: [
+        '1. Model menghitung nilai `z` berdasarkan bobot (β) dan fitur input (X).',
+        '2. Nilai `z` dimasukkan ke dalam fungsi sigmoid untuk mendapatkan probabilitas P(Y=1|X).',
+        '3. Sebuah ambang batas (threshold), biasanya 0.5, digunakan untuk mengklasifikasikan hasil. Jika probabilitas > 0.5, prediksi adalah kelas 1; jika tidak, prediksi adalah kelas 0.'
+      ],
+      studiKasus: [
+        'Sebuah bank ingin memprediksi apakah seorang nasabah akan gagal bayar pinjaman (default) atau tidak, berdasarkan pendapatan tahunan dan skor kredit mereka.',
+        'Model Regresi Logistik dilatih pada data historis. Model akan mempelajari koefisien β untuk pendapatan dan skor kredit.'
+      ],
+      hasilAkhir: [
+        'Model yang dihasilkan dapat mengambil data nasabah baru (pendapatan dan skor kredit) dan mengeluarkan probabilitas default. Misalnya, nasabah A memiliki probabilitas default 0.8 (80%), sehingga bank kemungkinan besar akan menolak aplikasi pinjamannya.'
+      ]
+    }
+  },
+  {
+    slug: 'k-nearest-neighbors',
+    title: 'Klasifikasi dengan K-Nearest Neighbors (KNN)',
+    description: 'Memahami algoritma berbasis jarak yang sederhana namun kuat untuk klasifikasi.',
+    category: 'Machine Learning',
+    content: {
+      penjelasan: [
+        'K-Nearest Neighbors (KNN) adalah algoritma supervised learning non-parametrik yang dapat digunakan untuk klasifikasi dan regresi. Untuk klasifikasi, KNN bekerja dengan menemukan K titik data terdekat (tetangga) dari titik data baru, lalu melakukan voting mayoritas untuk menentukan kelasnya.',
+        'KNN disebut juga "lazy learner" karena tidak membangun model secara eksplisit selama fase pelatihan; semua perhitungan terjadi saat prediksi.'
+      ],
+      rumus: [
+        'Jarak antara dua titik data (misalnya, p dan q) biasanya dihitung menggunakan Jarak Euclidean:',
+        'd(p, q) = √((q₁ - p₁)² + (q₂ - p₂)² + ... + (qₙ - pₙ)²) ',
+        'Di mana p = (p₁, p₂, ..., pₙ) dan q = (q₁, q₂, ..., qₙ) adalah dua titik data dalam ruang n-dimensi (n fitur).'
+      ],
+      prosesHitung: [
+        '1. Pilih nilai K (jumlah tetangga).',
+        '2. Untuk setiap titik data baru, hitung jaraknya ke semua titik data dalam set pelatihan.',
+        '3. Ambil K titik data dengan jarak terpendek (K tetangga terdekat).',
+        '4. Untuk klasifikasi, tentukan kelas dari titik data baru berdasarkan kelas mayoritas dari K tetangganya.'
+      ],
+      studiKasus: [
+        'Sebuah kebun raya ingin mengklasifikasikan spesies bunga baru berdasarkan panjang dan lebar kelopaknya. Data dari spesies yang sudah ada (misalnya, Iris Setosa dan Iris Versicolor) telah dipetakan.',
+        'Dengan K=5, algoritma KNN akan mencari 5 bunga terdekat dengan bunga baru. Jika 4 dari 5 tetangga terdekat adalah Iris Setosa dan 1 adalah Iris Versicolor, maka bunga baru akan diklasifikasikan sebagai Iris Setosa.'
+      ],
+      hasilAkhir: [
+        'Bunga baru berhasil diklasifikasikan ke dalam spesies yang paling mungkin berdasarkan kemiripannya dengan data yang ada. Keberhasilan KNN sangat bergantung pada pemilihan K yang tepat dan skala fitur yang konsisten.'
+      ]
+    }
+  },
+  {
+    slug: 'decision-tree',
+    title: 'Decision Tree: Membuat Keputusan dari Data',
+    description: 'Menyelami cara kerja Decision Tree dalam mempartisi data untuk membuat prediksi.',
+    category: 'Machine Learning',
+    content: {
+      penjelasan: [
+        'Decision Tree adalah model supervised learning yang memprediksi nilai variabel target dengan mempelajari aturan keputusan sederhana yang disimpulkan dari fitur data. Strukturnya mirip pohon, terdiri dari root node, internal nodes (tempat keputusan dibuat), dan leaf nodes (hasil prediksi).',
+        'Sangat intuitif dan mudah divisualisasikan, membuatnya mudah diinterpretasikan.'
+      ],
+      rumus: [
+        'Untuk memutuskan fitur mana yang akan menjadi node keputusan, Decision Tree menggunakan metrik seperti Gini Impurity atau Information Gain (Entropy).',
+        'Rumus Gini Impurity untuk sebuah node adalah:',
+        'Gini = 1 - Σ (pᵢ)²',
+        'Di mana pᵢ adalah probabilitas item dari kelas i pada node tersebut. Tujuannya adalah memilih pemisahan yang menghasilkan Gini Impurity terendah.'
+      ],
+      prosesHitung: [
+        'Algoritma secara rekursif mempartisi data. Pada setiap node, ia mencari fitur dan ambang batas terbaik yang paling efektif memisahkan data menjadi grup yang lebih murni (homogen).',
+        'Proses ini berlanjut hingga kriteria berhenti terpenuhi, seperti kedalaman maksimum pohon tercapai atau node sudah cukup murni.'
+      ],
+      studiKasus: [
+        'Sebuah bank ingin membuat model untuk menyetujui atau menolak aplikasi kartu kredit. Fitur yang digunakan adalah usia, pendapatan, dan status pekerjaan.',
+        'Decision Tree mungkin menemukan aturan pertama: "Apakah pendapatan > $50,000?". Jika ya, ikuti cabang kanan; jika tidak, ikuti cabang kiri. Proses ini berlanjut hingga setiap cabang berakhir pada keputusan "Setuju" atau "Tolak".'
+      ],
+      hasilAkhir: [
+        'Hasilnya adalah serangkaian aturan keputusan yang jelas dan dapat ditindaklanjuti. Contoh: "JIKA pendapatan > $50,000 DAN status pekerjaan = "Pekerja Tetap", MAKA Setujui". Ini memberikan transparansi penuh tentang bagaimana model membuat keputusannya.'
+      ]
+    }
+  },
+  {
+    slug: 'k-means-clustering',
+    title: 'Dasar-dasar K-Means Clustering',
+    description: 'Menjelajahi algoritma unsupervised learning untuk segmentasi data ke dalam beberapa kelompok (cluster).',
+    category: 'Data Mining',
+    content: {
+      penjelasan: [
+        'K-Means Clustering adalah algoritma unsupervised learning yang bertujuan untuk mempartisi n pengamatan ke dalam k cluster di mana setiap pengamatan termasuk dalam cluster dengan mean (centroid) terdekat.',
+        'Algoritma ini sangat berguna untuk segmentasi pelanggan, pengelompokan dokumen, dan deteksi anomali.'
+      ],
+      rumus: [
+        'K-Means bertujuan untuk meminimalkan Within-Cluster Sum of Squares (WCSS):',
+        'WCSS = Σ (jarak(xᵢ, cⱼ))²',
+        'Di mana cⱼ adalah centroid dari cluster j, dan xᵢ adalah titik data dalam cluster tersebut.',
+        'Jarak biasanya dihitung menggunakan Jarak Euclidean:',
+        'd(p, q) = √((q₁ - p₁)² + (q₂ - p₂)²)'
+      ],
+      prosesHitung: [
+        'Proses K-Means berjalan secara iteratif:',
+        '1. Inisialisasi: Pilih k titik data secara acak sebagai centroid awal.',
+        '2. Assignment Step: Tetapkan setiap titik data ke centroid terdekat (biasanya menggunakan jarak Euclidean).',
+        '3. Update Step: Hitung ulang posisi centroid dengan mengambil rata-rata dari semua titik data yang termasuk dalam cluster tersebut.',
+        '4. Ulangi langkah 2 dan 3 sampai posisi centroid tidak lagi berubah secara signifikan atau jumlah iterasi maksimum tercapai.'
+      ],
+      studiKasus: [
+        'Sebuah perusahaan ritel ingin mengelompokkan pelanggannya berdasarkan perilaku pembelian mereka, yaitu frekuensi pembelian dan total uang yang dihabiskan, untuk membuat kampanye pemasaran yang ditargetkan.',
+        'Dengan menetapkan k=3, algoritma K-Means diterapkan pada data pelanggan. Algoritma akan mengelompokkan pelanggan ke dalam tiga segmen: Pelanggan Setia (sering membeli, pengeluaran tinggi), Pelanggan Potensial (jarang membeli, pengeluaran sedang), dan Pelanggan Biasa (jarang membeli, pengeluaran rendah).'
+      ],
+      hasilAkhir: [
+        'Hasilnya adalah tiga segmen pelanggan yang berbeda. Perusahaan sekarang dapat merancang strategi pemasaran yang berbeda untuk setiap segmen:',
+        '  • Pelanggan Setia: Program loyalitas dan akses eksklusif.',
+        '  • Pelanggan Potensial: Penawaran diskon untuk mendorong pembelian ulang.',
+        '  • Pelanggan Biasa: Kampanye email untuk meningkatkan kesadaran merek.'
+      ]
+    }
+  },
+  {
+    slug: 'apriori-association-rules',
+    title: 'Menemukan Pola dengan Algoritma Apriori',
+    description: 'Menganalisis keranjang belanja untuk menemukan aturan asosiasi antar produk.',
+    category: 'Data Mining',
+    content: {
+      penjelasan: [
+        'Algoritma Apriori digunakan untuk Market Basket Analysis (Analisis Keranjang Belanja) untuk menemukan itemset yang sering muncul dan menghasilkan aturan asosiasi. Aturan ini membantu mengungkap produk mana yang sering dibeli bersamaan.',
+        'Contoh aturan: Jika seseorang membeli Roti, maka kemungkinan besar mereka juga akan membeli Selai.'
+      ],
+      rumus: [
+        'Ada tiga metrik utama untuk mengevaluasi aturan asosiasi (misal, A → B):',
+        '1. Support: Seberapa sering itemset muncul dalam dataset.',
+        'Support(A) = (Jumlah transaksi mengandung A) / (Total transaksi)',
+        '2. Confidence: Seberapa sering aturan tersebut terbukti benar.',
+        'Confidence(A → B) = Support(A ∪ B) / Support(A)',
+        '3. Lift: Peningkatan rasio penjualan B ketika A dijual. Lift > 1 menunjukkan hubungan positif.',
+        'Lift(A → B) = Confidence(A → B) / Support(B)'
+      ],
+      prosesHitung: [
+        '1. Tetapkan ambang batas minimum untuk support dan confidence.',
+        '2. Temukan semua itemset yang memenuhi support minimum (itemset yang sering muncul). Ini menggunakan "Prinsip Apriori": jika sebuah itemset sering muncul, maka semua subsetnya juga pasti sering muncul.',
+        '3. Dari itemset yang sering muncul, hasilkan aturan asosiasi yang memenuhi confidence minimum.'
+      ],
+      studiKasus: [
+        'Sebuah supermarket menganalisis data transaksi untuk menemukan pola pembelian. Mereka menemukan bahwa itemset {Popok, Tisu Bayi} memiliki support yang tinggi.',
+        'Dari itemset ini, mereka menghasilkan aturan {Popok} → {Bir} dengan confidence 0.7 (70%) dan lift 1.5. Ini mungkin tampak aneh, tetapi bisa jadi menunjukkan bahwa ayah muda yang membeli popok juga sering membeli bir.'
+      ],
+      hasilAkhir: [
+        'Supermarket memutuskan untuk menempatkan rak bir di dekat lorong produk bayi untuk mendorong penjualan impulsif. Hasilnya, penjualan bir dan popok meningkat. Aturan asosiasi memberikan wawasan yang dapat ditindaklanjuti untuk strategi penempatan produk dan promosi silang.'
+      ]
+    }
+  }
+];
