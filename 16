@@ -82,7 +82,7 @@ const LandingPage: React.FC = () => {
             Platform Machine Learning Interaktif
           </div>
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
-            Arena Machine
+            Machine
             <br />
             <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
               Learning
